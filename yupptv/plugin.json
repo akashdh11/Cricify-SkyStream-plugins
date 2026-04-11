@@ -1,0 +1,10 @@
+{
+  "packageName": "dev.akash.cricify.yupptv",
+  "name": "YUPPTV",
+  "version": 1,
+  "baseUrl": "https://tv.noobon.top/playlist/yapp.php",
+  "description": "Yupp TV Channels",
+  "authors": ["Akash"],
+  "languages": ["en"],
+  "categories": ["LiveTv"]
+}

@@ -1,0 +1,17 @@
+{
+  "packageName": "dev.akash.cricify.ayna2",
+  "name": "AYNA 2",
+  "version": 1,
+  "baseUrl": "https://bdix.spidy.online",
+  "description": "AYNA 2 Live Channels",
+  "authors": [
+    "Akash"
+  ],
+  "languages": [
+    "en"
+  ],
+  "categories": [
+    "LiveTv",
+    "Others"
+  ]
+}

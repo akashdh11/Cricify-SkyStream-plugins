@@ -1,0 +1,17 @@
+{
+  "packageName": "dev.akash.cricify.bdixtv",
+  "name": "BDIX TV",
+  "version": 1,
+  "baseUrl": "https://tv.noobon.top",
+  "description": "BDIX TV Live Channels",
+  "authors": [
+    "Akash"
+  ],
+  "languages": [
+    "en"
+  ],
+  "categories": [
+    "LiveTv",
+    "Others"
+  ]
+}

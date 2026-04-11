@@ -1,0 +1,10 @@
+{
+  "packageName": "dev.akash.cricify.wavesott",
+  "name": "WAVES OTT",
+  "version": 1,
+  "baseUrl": "https://alex4528.site/playlist/waves.m3u",
+  "description": "WAVES OTT Live Channels",
+  "authors": ["Akash"],
+  "languages": ["en"],
+  "categories": ["LiveTv"]
+}

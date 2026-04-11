@@ -1,0 +1,18 @@
+{
+  "packageName": "dev.akash.cricify.ayna",
+  "name": "AYNA",
+  "version": 2,
+  "baseUrl": "https://playlist-cricfy.noobon.top",
+  "description": "AYNA OTT Live TV Provider",
+  "authors": [
+    "Akash"
+  ],
+  "languages": [
+    "en",
+    "bn"
+  ],
+  "categories": [
+    "LiveTv",
+    "Others"
+  ]
+}

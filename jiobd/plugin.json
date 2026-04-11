@@ -1,0 +1,16 @@
+{
+  "packageName": "dev.akash.cricify.jiobd",
+  "name": "Jio BD",
+  "version": 2,
+  "baseUrl": "https://ranapk.short.gy",
+  "description": "Jio BD Live TV and Sports",
+  "authors": [
+    "Akash"
+  ],
+  "languages": [
+    "en"
+  ],
+  "categories": [
+    "LiveTv"
+  ]
+}
