@@ -1,28 +1,19 @@
 (function() {
     /**
-     * @typedef {Object} Response
-     * @property {boolean} success
-     * @property {any} [data]
-     * @property {string} [errorCode]
-     * @property {string} [message]
-     */
-
-    /**
      * @type {import('@skystream/sdk').Manifest}
      */
     // var manifest is injected at runtime
 
     /**
-     * Helper to fetch the M3U playlist.
+     * Fetches the IPTV playlist from the provider.
      */
     async function fetchM3U() {
         const url = `${manifest.baseUrl}/tvd/2/TVDin.php`;
         const headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101 Firefox/78.0",
-            "Accept": "*/*",
-            "Accept-Language": "en-US,en;q=0.5",
-            "Connection": "keep-alive"
+            "Referer": "https://ranapk.short.gy/"
         };
+
         const response = await http_get(url, headers);
         const status = response.status !== undefined ? response.status : response.statusCode;
         if (status >= 200 && status < 300) {
@@ -39,17 +30,24 @@
         const lines = m3uString.split('\n');
         const categories = { "Other Channels": [] };
         let currentChannel = null;
+        
+        // Collector for properties that appear BEFORE the #EXTINF line
+        let pendingHeaders = {};
 
         for (let i = 0; i < lines.length; i++) {
             const line = lines[i].trim();
+            if (!line) continue;
+
             if (line.startsWith("#EXTINF:-1")) {
                 currentChannel = { 
                     title: "Unknown Channel", 
                     poster: "", 
                     group: "Other Channels", 
-                    headers: {}, 
-                    kodiProps: {} 
+                    headers: Object.assign({}, pendingHeaders)
                 };
+                
+                // Reset pending for next entry
+                pendingHeaders = {};
                 
                 const logoMatch = line.match(/tvg-logo="([^"]*)"/);
                 if (logoMatch && logoMatch[1]) currentChannel.poster = logoMatch[1];
@@ -63,9 +61,9 @@
                 const splitName = line.split(",");
                 if (splitName.length > 1) currentChannel.title = splitName[splitName.length - 1].trim();
             } else if (line.startsWith("#EXTVLCOPT:http-user-agent=")) {
-                if (currentChannel) currentChannel.headers["User-Agent"] = line.split("=")[1].trim();
-            } else if (line.startsWith("#KODIPROP:inputstream.adaptive.license_key=")) {
-                if (currentChannel) currentChannel.kodiProps.licenseUrl = line.split("=")[1].trim();
+                const ua = line.split("=")[1].trim();
+                if (currentChannel) currentChannel.headers["User-Agent"] = ua;
+                else pendingHeaders["User-Agent"] = ua;
             } else if (line.startsWith("http")) {
                 if (currentChannel) {
                     if (line.includes("|")) {
@@ -97,6 +95,7 @@
 
                     categories[currentChannel.group].push(item);
                     currentChannel = null;
+                    pendingHeaders = {};
                 }
             }
         }
@@ -191,13 +190,28 @@
     async function loadStreams(url, cb) {
         try {
             const channelData = JSON.parse(url);
+            let targetUrl = channelData.url;
+            
+            // Standard headers for the stream
+            const headers = {
+                "User-Agent": channelData.headers["User-Agent"] || "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+                "Referer": "https://ranapk.short.gy/", // Use short.gy as referer to avoid bot-check
+                "Origin": manifest.baseUrl
+            };
+            if (channelData.headers.Cookie) headers.Cookie = channelData.headers.Cookie;
+
+            // Bypassing the broken SkyStream local proxy by forcing the engine to recognize it as HLS
+            if (targetUrl.includes("play.php") && !targetUrl.includes(".m3u8")) {
+                targetUrl += targetUrl.includes("?") ? "&extension=.m3u8" : "?extension=.m3u8";
+            }
+
             cb({
                 success: true,
                 data: [
                     new StreamResult({
-                        url: channelData.url,
+                        url: targetUrl,
                         source: "Auto",
-                        headers: channelData.headers || {}
+                        headers: headers
                     })
                 ]
             });
