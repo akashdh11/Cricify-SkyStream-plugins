@@ -125,23 +125,6 @@
     "url": "https://raw.githubusercontent.com/akashdh11/Cricify-SkyStream-plugins/main/dist/dev.akash.cricify.jiobd.sky"
   },
   {
-    "packageName": "dev.akash.cricify.liveevents",
-    "name": "Live Events",
-    "version": 2,
-    "baseUrl": "https://cfyjgfbnjjgv103.top",
-    "description": "Live Sports Events and Highlights",
-    "authors": [
-      "Akash"
-    ],
-    "languages": [
-      "en"
-    ],
-    "categories": [
-      "LiveTv"
-    ],
-    "url": "https://raw.githubusercontent.com/akashdh11/Cricify-SkyStream-plugins/main/dist/dev.akash.cricify.liveevents.sky"
-  },
-  {
     "packageName": "dev.akash.cricify.piratestv",
     "name": "PiratesTV",
     "version": 1,
