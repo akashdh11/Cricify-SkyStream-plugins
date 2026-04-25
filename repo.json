@@ -4,6 +4,5 @@
   "description": "SkyStream plugins repository",
   "manifestVersion": 1,
   "pluginLists": [
-    "https://raw.githubusercontent.com/akashdh11/Cricify-SkyStream-plugins/main/dist/plugins.json"
   ]
 }
